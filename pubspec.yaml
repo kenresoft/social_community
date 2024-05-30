@@ -32,27 +32,23 @@ flutter:
    - assets/svg/
 
   fonts:
-   - family: Poppins
+   - family: Proxima Nova
      fonts:
-       - asset: fonts/Poppins-Regular.ttf
+       - asset: fonts/Proxima-Nova-Regular.otf
          weight: 400
          style: normal
-       - asset: fonts/Poppins-Italic.ttf
+       - asset: fonts/Proxima-Nova-Italic.otf
          style: italic
-       - asset: fonts/Poppins-Black.ttf
+       - asset: fonts/Proxima-Nova-Black.otf
          weight: 900
-       - asset: fonts/Poppins-ExtraBold.ttf
+       - asset: fonts/Proxima-Nova-ExtraBold.otf
          weight: 800
-       - asset: fonts/Poppins-Bold.ttf
+       - asset: fonts/Proxima-Nova-Bold.otf
          weight: 700
-       - asset: fonts/Poppins-SemiBold.ttf
+       - asset: fonts/Proxima-Nova-SemiBold.otf
          weight: 600
-       - asset: fonts/Poppins-Medium.ttf
-         weight: 500
-       - asset: fonts/Poppins-Light.ttf
+       - asset: fonts/Proxima-Nova-Light.otf
          weight: 300
-       - asset: fonts/Poppins-ExtraLight.ttf
-         weight: 200
-       - asset: fonts/Poppins-Thin.ttf
+       - asset: fonts/Proxima-Nova-Thin.otf
          weight: 100
 
