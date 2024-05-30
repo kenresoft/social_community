@@ -29,7 +29,11 @@ class _CustomAppBarExampleState extends State<CustomAppBarExample> {
 
   void _updatePercent() {
     setState(() {
-      double newPercent = (_scrollController.offset) / (300.0 - kToolbarHeight);
+      double maxScrollExtent = _scrollController.position.maxScrollExtent;
+      double currentScrollOffset = _scrollController.offset;
+      double scrollRange = maxScrollExtent - kToolbarHeight;
+
+      double newPercent = currentScrollOffset / scrollRange;
       percent = newPercent.clamp(0.0, 1.0);
       showLeadingImage = percent == 1.0;
     });
