@@ -1,84 +1,83 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
-  @override
-  double get minExtent => kToolbarHeight;
-
-  @override
-  double get maxExtent => 300.0;
+class CollapsedHeader extends StatelessWidget {
+  const CollapsedHeader({super.key});
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    final percent = shrinkOffset / maxExtent;
-    final transformPercent = percent.clamp(0.0, 1.0);
-
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        // Image that fades out as we scroll up
-        Opacity(
-          opacity: 1 - transformPercent,
-          child: Image.asset(
-            'assets/img/header-image.png',
-            fit: BoxFit.cover,
-          ),
-        ),
-        // Card that moves up and becomes the app bar
-        Positioned(
-          bottom: 0,
-          left: 0,
-          right: 0,
-          child: Transform.translate(
-            offset: Offset(0, -shrinkOffset / 2),
-            child: const Card(
-              margin: EdgeInsets.zero,
-              child: Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Header Card Content',
-                      style: TextStyle(fontSize: 24.0),
+  Widget build(BuildContext context) {
+    return Container(
+      color: const Color(0xFFC32422),
+      width: 1.sw,
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 200),
+            switchInCurve: Curves.easeInOut,
+            switchOutCurve: Curves.easeInOut,
+            transitionBuilder: (child, animation) {
+              return FadeTransition(opacity: animation, child: child);
+            },
+            child: Hero(
+              tag: 'headerImage',
+              child: Container(
+                key: const ValueKey('circleAvatar'),
+                width: 50,
+                height: 50,
+                clipBehavior: Clip.antiAlias,
+                decoration: ShapeDecoration(
+                  color: const Color(0xFFFACB31),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(200),
+                  ),
+                ),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/img/header-image.png'),
+                      fit: BoxFit.cover,
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-        // Custom AppBar that fades in as we scroll up
-        Positioned(
-          top: 0,
-          left: 0,
-          right: 0,
-          child: Container(
-            height: kToolbarHeight,
-            color: Colors.white.withOpacity(transformPercent),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Text(
-                    'Header Card Content',
-                    style: TextStyle(fontSize: 20.0 * transformPercent),
-                  ),
+          const SizedBox(width: 8),
+          const Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'The Weeknd',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 22,
+                  fontFamily: 'Proxima Nova',
+                  fontWeight: FontWeight.w600,
+                  height: 0,
                 ),
-                IconButton(
-                  icon: const Icon(Icons.more_vert),
-                  onPressed: () {},
+              ),
+              SizedBox(height: 6),
+              Text(
+                'Community • +11K Members',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontFamily: 'Proxima Nova',
+                  fontWeight: FontWeight.w600,
+                  height: 0,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ),
-      ],
+        ],
+      ),
     );
-  }
-
-  @override
-  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    return true;
   }
 }
