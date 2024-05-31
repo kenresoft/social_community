@@ -1,4 +1,7 @@
+import 'package:extensionresoft/extensionresoft.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:social_community/utils/extensions.dart';
 
 import 'collapsed_header.dart';
 import 'custom_container.dart';
@@ -13,8 +16,12 @@ class Community extends StatefulWidget {
 
 class _CommunityState extends State<Community> {
   final ScrollController _scrollController = ScrollController();
-  double percent = 0.0;
-  bool showLeadingImage = false;
+  double position = 0.0;
+
+  //bool showExpanded = true;
+  ScrollDirection scrollDirection = ScrollDirection.idle;
+  static const double expandedHeight = 300.0;
+  static const double toolbarHeight = 75.0;
 
   @override
   void initState() {
@@ -31,13 +38,16 @@ class _CommunityState extends State<Community> {
 
   void _updatePercent() {
     setState(() {
-      double maxScrollExtent = _scrollController.position.maxScrollExtent;
       double currentScrollOffset = _scrollController.offset;
-      double scrollRange = maxScrollExtent - kToolbarHeight;
+      scrollDirection = _scrollController.position.userScrollDirection;
+      double scrollRange = expandedHeight - toolbarHeight;
 
-      double newPercent = currentScrollOffset / scrollRange;
-      percent = newPercent.clamp(0.0, 1.0);
-      showLeadingImage = percent == 1.0;
+      double range = currentScrollOffset / scrollRange;
+      position = range.clamp(0.0, 1.0);
+
+      /*if (scrollDirection == ScrollDirection.reverse && position != 1) {
+        showExpanded = true;
+      }*/
     });
   }
 
@@ -49,23 +59,22 @@ class _CommunityState extends State<Community> {
         slivers: [
           SliverAppBar(
             pinned: true,
-            floating: true,
-            expandedHeight: 300.0,
-            toolbarHeight: 75,
+            floating: false,
+            expandedHeight: expandedHeight,
+            toolbarHeight: toolbarHeight,
             titleSpacing: 0,
-            title: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              switchInCurve: Curves.easeInOut,
-              switchOutCurve: Curves.easeInOut,
-              child: percent == 1.0 ? const CollapsedHeader() : null,
+            title: condition(
+              position == 1.0,
+              const CollapsedHeader(),
+              null,
             ),
             flexibleSpace: FlexibleSpaceBar(
               titlePadding: EdgeInsets.zero,
-              title: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),
-                switchInCurve: Curves.easeInOut,
-                switchOutCurve: Curves.easeInOut,
-                child: percent != 1.0 ? const ExpandedHeader() : null,
+              title: condition(
+                /*showExpanded || */
+                /*scrollDirection == ScrollDirection.forward ||*/ position <= 1,
+                const ExpandedHeader(),
+                null,
               ),
               background: Image.asset('assets/img/header-image.png', fit: BoxFit.cover),
             ),
