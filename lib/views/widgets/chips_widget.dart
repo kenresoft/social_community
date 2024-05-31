@@ -1,3 +1,4 @@
+import 'package:extensionresoft/extensionresoft.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -40,7 +41,7 @@ class ChipsWidget extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  const SizedBox(width: 5),
+                  5.w.spX,
                 ],
               ),
             Container(
@@ -50,7 +51,7 @@ class ChipsWidget extends StatelessWidget {
               decoration: ShapeDecoration(
                 shape: RoundedRectangleBorder(
                   side: const BorderSide(width: 1, color: Color(0xFFEF456F)),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20).r,
                 ),
               ),
               child: Text(

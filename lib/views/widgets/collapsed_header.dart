@@ -13,7 +13,7 @@ class CollapsedHeader extends StatelessWidget {
     return Container(
       color: const Color(0xFFC32422),
       width: 1.sw,
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 10),
+      padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 10.w),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -25,12 +25,12 @@ class CollapsedHeader extends StatelessWidget {
               GestureDetector(
                 onTap: onBackClick,
                 child: Container(
-                  width: 24,
-                  height: 24,
+                  width: 24.w,
+                  height: 24.h,
                   decoration: ShapeDecoration(
                     color: Colors.black.withOpacity(0.10000000149011612),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20).r,
                     ),
                   ),
                   child: SvgPicture.asset('assets/svg/arrow-left.svg'),
@@ -48,13 +48,13 @@ class CollapsedHeader extends StatelessWidget {
                   tag: 'headerImage',
                   child: Container(
                     key: const ValueKey('circleAvatar'),
-                    width: 50,
-                    height: 50,
+                    width: 50.w,
+                    height: 50.h,
                     clipBehavior: Clip.antiAlias,
                     decoration: ShapeDecoration(
                       color: const Color(0xFFFACB31),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(200),
+                        borderRadius: BorderRadius.circular(200).r,
                       ),
                     ),
                     child: Container(
@@ -68,8 +68,8 @@ class CollapsedHeader extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 8),
-              const Column(
+              8.w.spX,
+              Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,19 +78,19 @@ class CollapsedHeader extends StatelessWidget {
                     'The Weeknd',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 22,
+                      fontSize: 22.sp,
                       fontFamily: 'Proxima Nova',
                       fontWeight: FontWeight.w600,
                       height: 0,
                     ),
                   ),
-                  SizedBox(height: 6),
+                  6.h.spY,
                   Text(
                     'Community • +11K Members',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 14,
+                      fontSize: 14.sp,
                       fontFamily: 'Proxima Nova',
                       fontWeight: FontWeight.w600,
                       height: 0,
@@ -103,13 +103,13 @@ class CollapsedHeader extends StatelessWidget {
           GestureDetector(
             onTap: () => _showBottomSheet(context),
             child: Container(
-              width: 24,
-              height: 24,
+              width: 24.w,
+              height: 24.h,
               margin: EdgeInsets.only(right: 10.w),
               decoration: ShapeDecoration(
                 color: Colors.black.withOpacity(0.1),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20).r,
                 ),
               ),
               child: SvgPicture.asset('assets/svg/more.svg'),
@@ -126,12 +126,12 @@ void _showBottomSheet(BuildContext context) {
     context: context,
     builder: (BuildContext context) {
       return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
         clipBehavior: Clip.antiAlias,
         decoration: ShapeDecoration(
           color: Colors.white,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(15).r,
           ),
         ),
         child: Column(
@@ -161,7 +161,7 @@ void _showBottomSheet(BuildContext context) {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SvgPicture.asset('assets/svg/add-member.svg'),
-                SizedBox(width: 8.w),
+                8.w.spX,
                 Text(
                   'Add member',
                   style: TextStyle(
