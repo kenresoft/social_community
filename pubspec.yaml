@@ -13,8 +13,7 @@ dependencies:
 
   cupertino_icons: ^1.0.8
   extensionresoft: ^0.0.6
-  flutter_screenutil: ^5.9.1
-  fluttertoast: ^8.2.5
+  flutter_screenutil: ^5.9.3
   flutter_svg: ^2.0.10+1
 
 dev_dependencies:
