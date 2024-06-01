@@ -26,12 +26,16 @@ class _CommunityState extends State<Community> with SingleTickerProviderStateMix
   bool _isSearching = false;
   late AnimationController _animationController;
   late Animation<double> _avatarAnimation;
+  late Animation<double> _imageScaleAnimation;
+  late Animation<double> _imageOpacityAnimation;
 
   @override
   void initState() {
     super.initState();
     _animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 300));
     _avatarAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
+    _imageScaleAnimation = Tween<double>(begin: 1.0, end: -3.0).animate(_animationController);
+    _imageOpacityAnimation = Tween<double>(begin: 1.0, end: -3.0).animate(_animationController);
 
     _scrollController.addListener(_updatePercent);
   }
@@ -78,290 +82,290 @@ class _CommunityState extends State<Community> with SingleTickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: condition(
-        _isSearching,
-        AppBar(
-          toolbarHeight: toolbarHeight.h,
-          titleSpacing: 0,
-          title: CollapsedHeader(
-            onBackClick: () => _toggleSearch(),
-          ),
-        ),
-        null,
-      ),
-      body: CustomScrollView(
-        controller: _scrollController,
-        slivers: [
-          if (!_isSearching)
-            SliverAppBar(
-              pinned: true,
-              floating: false,
-              expandedHeight: expandedHeight,
-              //collapsedHeight: toolbarHeight,
+    return AnnotatedRegion(
+      value: const SystemUiOverlayStyle(statusBarColor: Colors.white),
+      child: SafeArea(
+        child: Scaffold(
+          appBar: condition(
+            _isSearching,
+            AppBar(
               toolbarHeight: toolbarHeight.h,
               titleSpacing: 0,
-              title: condition(
-                scrollPosition == 1.0,
-                const CollapsedHeader(),
-                null,
-              ),
-              /*flexibleSpace: LayoutBuilder(
-                  builder: (BuildContext context, BoxConstraints constraints) {
-                    return FlexibleSpaceBar(
-                      centerTitle: true,
-                      title: AnimatedBuilder(
-                        animation: _avatarAnimation,
-                        builder: (context, child) {
-                          return Opacity(
-                            opacity: _avatarAnimation.value,
-                            child: CircleAvatar(
-                              radius: 30.0 * _avatarAnimation.value,
-                              backgroundImage: AssetImage('assets/avatar.png'),
-                            ),
-                          );
-                        },
-                      ),
-                      background: Image.asset('assets/header-image.jpg', fit: BoxFit.cover),
-                    );
-                  },
-                )*/
-              flexibleSpace: FlexibleSpaceBar(
-                titlePadding: EdgeInsets.zero,
-                collapseMode: CollapseMode.pin,
-                expandedTitleScale: 1,
-                title: condition(
-                  scrollPosition < 1,
-                  ExpandedHeader(animation: _avatarAnimation),
-                  null,
-                ),
-                background: Stack(
-                  children: [
-                    Image.asset('assets/img/header-image.png', fit: BoxFit.cover),
-                    Container(
-                      width: 24.w,
-                      height: 24.h,
-                      decoration: ShapeDecoration(
-                        color: Colors.black.withOpacity(0.1),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20).r,
-                        ),
-                      ),
-                      child: SvgPicture.asset('assets/svg/arrow-left.svg'),
-                    )
-                  ],
-                ),
+              title: CollapsedHeader(
+                onBackClick: () => _toggleSearch(),
               ),
             ),
-          if (!_isSearching) ...[
-            SliverToBoxAdapter(
-              child: Container(
-                width: 320.w,
-                margin: const EdgeInsets.all(16).r,
-                child: Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                        text: Constants.lorem,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16.sp,
-                          fontFamily: 'Proxima Nova',
-                          fontWeight: FontWeight.w400,
+            null,
+          ),
+          body: CustomScrollView(
+            controller: _scrollController,
+            slivers: [
+              if (!_isSearching)
+                SliverAppBar(
+                  pinned: true,
+                  floating: false,
+                  expandedHeight: expandedHeight,
+                  //collapsedHeight: toolbarHeight,
+                  toolbarHeight: toolbarHeight.h,
+                  titleSpacing: 0,
+                  title: condition(
+                    scrollPosition == 1.0,
+                    const CollapsedHeader(),
+                    null,
+                  ),
+                  flexibleSpace: FlexibleSpaceBar(
+                    titlePadding: EdgeInsets.zero,
+                    expandedTitleScale: 1,
+                    title: condition(
+                      scrollPosition < 1,
+                      ExpandedHeader(animation: _avatarAnimation),
+                      null,
+                    ),
+                    background: Stack(
+                      children: [
+                        Image.asset(
+                          'assets/img/header-image.png',
+                          fit: BoxFit.cover,
+                          width: 1.sw,
                         ),
-                      ),
-                      TextSpan(
-                        text: 'Read more',
-                        style: TextStyle(
-                          color: const Color(0xFFEF456F),
-                          fontSize: 16.sp,
-                          fontFamily: 'Proxima Nova',
-                          fontWeight: FontWeight.w400,
+                        Positioned(
+                          top: 18.h /* + _imagePositionAnimation.value*/,
+                          left: 20.w,
+                          child: AnimatedScale(
+                            scale: _imageScaleAnimation.value > 0 ? _imageScaleAnimation.value : 0,
+                            duration: const Duration(milliseconds: 300),
+                            child: AnimatedOpacity(
+                              duration: const Duration(milliseconds: 300),
+                              opacity: _imageOpacityAnimation.value > 0 ? _imageOpacityAnimation.value : 0,
+                              child: Container(
+                                width: 24.w,
+                                height: 24.h,
+                                decoration: ShapeDecoration(
+                                  color: Colors.black,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20).r,
+                                  ),
+                                ),
+                                child: SvgPicture.asset('assets/svg/arrow-left.svg'),
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ),
-            const ChipsWidget(),
-            SliverToBoxAdapter(
-              child: Container(
-                width: 320.w,
-                height: 24.h,
-                margin: EdgeInsets.symmetric(horizontal: 16.w).copyWith(top: 32.h, bottom: 8.h),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Media, docs and links',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16.sp,
-                        fontFamily: 'Proxima Nova',
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    SvgPicture.asset('assets/svg/chevron-right.svg')
-                  ],
-                ),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Container(
-                height: 115.h,
-                margin: const EdgeInsets.symmetric(horizontal: 16).w,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 5,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      width: 110.w,
-                      margin: EdgeInsets.only(right: 8.r),
-                      clipBehavior: Clip.antiAlias,
-                      decoration: ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6).r,
-                        ),
-                        image: const DecorationImage(
-                          image: AssetImage('assets/img/header-image.png'),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Mute notification',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 14.sp,
-                        fontFamily: 'Proxima Nova',
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    Container(
-                      width: 21.w,
-                      height: 21.h,
-                      margin: EdgeInsets.only(right: 24.w),
-                      decoration: const ShapeDecoration(
-                        color: Color(0xFFAAABAB),
-                        shape: OvalBorder(),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const CommunityOptionsWidget(
-              assetPath: 'assets/svg/trash.svg',
-              text: 'Clear chat',
-            ),
-            const CommunityOptionsWidget(
-              assetPath: 'assets/svg/lock.svg',
-              text: 'Encryption',
-            ),
-            const CommunityOptionsWidget(
-              assetPath: 'assets/svg/logout.svg',
-              text: 'Exit community',
-            ),
-            const CommunityOptionsWidget(
-              assetPath: 'assets/svg/dislike.svg',
-              text: 'Report',
-            ),
-          ],
-          SliverToBoxAdapter(
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  if (!_isSearching) ...[
-                    Text(
-                      'Members',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16.sp,
-                        fontFamily: 'Proxima Nova',
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: _toggleSearch,
-                      child: Container(
-                        width: 24.h,
-                        height: 24.h,
-                        decoration: ShapeDecoration(
-                          color: const Color(0xFFE9E9EB),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20).r,
-                          ),
-                        ),
-                        child: SvgPicture.asset('assets/svg/search.svg'),
-                      ),
-                    )
-                  ] else
-                    Expanded(
-                      child: Row(
+              if (!_isSearching) ...[
+                SliverToBoxAdapter(
+                  child: Container(
+                    width: 320.w,
+                    margin: const EdgeInsets.all(16).r,
+                    child: Text.rich(
+                      TextSpan(
                         children: [
-                          Expanded(
-                            child: Container(
-                              height: 38.h,
-                              decoration: ShapeDecoration(
-                                color: const Color(0xFFE9E9EB),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30).r,
-                                ),
-                              ),
-                              child: TextField(
-                                expands: true,
-                                maxLines: null,
-                                decoration: InputDecoration(
-                                  isDense: true,
-                                  contentPadding: EdgeInsets.fromLTRB(
-                                    12.w,
-                                    8.h,
-                                    12.w,
-                                    8.h,
-                                  ),
-                                  hintText: 'Search member',
-                                  border: InputBorder.none,
-                                ),
-                              ),
+                          TextSpan(
+                            text: Constants.lorem,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16.sp,
+                              fontFamily: 'Proxima Nova',
+                              fontWeight: FontWeight.w400,
                             ),
                           ),
-                          TextButton(
-                            onPressed: _toggleSearch,
-                            child: const Text('Cancel'),
+                          TextSpan(
+                            text: 'Read more',
+                            style: TextStyle(
+                              color: const Color(0xFFEF456F),
+                              fontSize: 16.sp,
+                              fontFamily: 'Proxima Nova',
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                         ],
                       ),
                     ),
-                ],
+                  ),
+                ),
+                const ChipsWidget(),
+                SliverToBoxAdapter(
+                  child: Container(
+                    width: 320.w,
+                    height: 24.h,
+                    margin: EdgeInsets.symmetric(horizontal: 16.w).copyWith(top: 32.h, bottom: 8.h),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Media, docs and links',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16.sp,
+                            fontFamily: 'Proxima Nova',
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        SvgPicture.asset('assets/svg/chevron-right.svg')
+                      ],
+                    ),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: Container(
+                    height: 115.h,
+                    margin: const EdgeInsets.symmetric(horizontal: 16).w,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: 5,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          width: 110.w,
+                          margin: EdgeInsets.only(right: 8.r),
+                          clipBehavior: Clip.antiAlias,
+                          decoration: ShapeDecoration(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(6).r,
+                            ),
+                            image: const DecorationImage(
+                              image: AssetImage('assets/img/header-image.png'),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Mute notification',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14.sp,
+                            fontFamily: 'Proxima Nova',
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Container(
+                          width: 21.w,
+                          height: 21.h,
+                          margin: EdgeInsets.only(right: 24.w),
+                          decoration: const ShapeDecoration(
+                            color: Color(0xFFAAABAB),
+                            shape: OvalBorder(),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const CommunityOptionsWidget(
+                  assetPath: 'assets/svg/trash.svg',
+                  text: 'Clear chat',
+                ),
+                const CommunityOptionsWidget(
+                  assetPath: 'assets/svg/lock.svg',
+                  text: 'Encryption',
+                ),
+                const CommunityOptionsWidget(
+                  assetPath: 'assets/svg/logout.svg',
+                  text: 'Exit community',
+                ),
+                const CommunityOptionsWidget(
+                  assetPath: 'assets/svg/dislike.svg',
+                  text: 'Report',
+                ),
+              ],
+              SliverToBoxAdapter(
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      if (!_isSearching) ...[
+                        Text(
+                          'Members',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16.sp,
+                            fontFamily: 'Proxima Nova',
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: _toggleSearch,
+                          child: Container(
+                            width: 24.h,
+                            height: 24.h,
+                            decoration: ShapeDecoration(
+                              color: const Color(0xFFE9E9EB),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20).r,
+                              ),
+                            ),
+                            child: SvgPicture.asset('assets/svg/search.svg'),
+                          ),
+                        )
+                      ] else
+                        Expanded(
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  height: 38.h,
+                                  decoration: ShapeDecoration(
+                                    color: const Color(0xFFE9E9EB),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30).r,
+                                    ),
+                                  ),
+                                  child: TextField(
+                                    expands: true,
+                                    maxLines: null,
+                                    decoration: InputDecoration(
+                                      isDense: true,
+                                      contentPadding: EdgeInsets.fromLTRB(
+                                        12.w,
+                                        8.h,
+                                        12.w,
+                                        8.h,
+                                      ),
+                                      hintText: 'Search member',
+                                      border: InputBorder.none,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: _toggleSearch,
+                                child: const Text('Cancel'),
+                              ),
+                            ],
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
               ),
-            ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                    return CustomContainer(index: index);
+                  },
+                  childCount: 15,
+                ),
+              ),
+            ],
           ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                return CustomContainer(index: index);
-              },
-              childCount: 15,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
