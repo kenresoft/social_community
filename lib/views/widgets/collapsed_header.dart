@@ -11,11 +11,13 @@ class CollapsedHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color(0xFFC32422),
+      height: 75.h,
       width: 1.sw,
-      padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 10.w),
+      color: const Color(0xFFC32422),
+      padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 8.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Row(
             mainAxisSize: MainAxisSize.min,
@@ -28,7 +30,7 @@ class CollapsedHeader extends StatelessWidget {
                   width: 24.w,
                   height: 24.h,
                   decoration: ShapeDecoration(
-                    color: Colors.black.withOpacity(0.10000000149011612),
+                    color: Colors.black.withOpacity(0.1),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20).r,
                     ),
@@ -36,34 +38,22 @@ class CollapsedHeader extends StatelessWidget {
                   child: SvgPicture.asset('assets/svg/arrow-left.svg'),
                 ),
               ),
-              16.w.spaceX(),
-              AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),
-                switchInCurve: Curves.easeInOut,
-                switchOutCurve: Curves.easeInOut,
-                transitionBuilder: (child, animation) {
-                  return FadeTransition(opacity: animation, child: child);
-                },
-                child: Hero(
-                  tag: 'headerImage',
-                  child: Container(
-                    key: const ValueKey('circleAvatar'),
-                    width: 50.w,
-                    height: 50.h,
-                    clipBehavior: Clip.antiAlias,
-                    decoration: ShapeDecoration(
-                      color: const Color(0xFFFACB31),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(200).r,
-                      ),
-                    ),
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage('assets/img/header-image.png'),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+              16.w.spX,
+              Container(
+                width: 50.w,
+                height: 50.h,
+                clipBehavior: Clip.antiAlias,
+                decoration: ShapeDecoration(
+                  color: const Color(0xFFFACB31),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(200).r,
+                  ),
+                ),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/img/header-image.png'),
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
@@ -81,7 +71,6 @@ class CollapsedHeader extends StatelessWidget {
                       fontSize: 22.sp,
                       fontFamily: 'Proxima Nova',
                       fontWeight: FontWeight.w600,
-                      height: 0,
                     ),
                   ),
                   6.h.spY,
@@ -93,7 +82,6 @@ class CollapsedHeader extends StatelessWidget {
                       fontSize: 14.sp,
                       fontFamily: 'Proxima Nova',
                       fontWeight: FontWeight.w600,
-                      height: 0,
                     ),
                   ),
                 ],
@@ -144,13 +132,19 @@ void _showBottomSheet(BuildContext context) {
               children: [
                 SvgPicture.asset('assets/svg/invite.svg'),
                 SizedBox(width: 8.w),
-                Text(
-                  'Invite',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 14.sp,
-                    fontFamily: 'Proxima Nova',
-                    fontWeight: FontWeight.w600,
+                GestureDetector(
+                  onTap: () {
+                    debugPrint('Invite button clicked!');
+                    Navigator.pop(context); 
+                  },
+                  child: Text(
+                    'Invite',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14.sp,
+                      fontFamily: 'Proxima Nova',
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ],
@@ -162,13 +156,19 @@ void _showBottomSheet(BuildContext context) {
               children: [
                 SvgPicture.asset('assets/svg/add-member.svg'),
                 8.w.spX,
-                Text(
-                  'Add member',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 14.sp,
-                    fontFamily: 'Proxima Nova',
-                    fontWeight: FontWeight.w600,
+                GestureDetector(
+                  onTap: () {
+                    debugPrint('Add member button clicked!');
+                    Navigator.pop(context); 
+                  },
+                  child: Text(
+                    'Add member',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14.sp,
+                      fontFamily: 'Proxima Nova',
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ],
@@ -180,13 +180,19 @@ void _showBottomSheet(BuildContext context) {
               children: [
                 SvgPicture.asset('assets/svg/add-group.svg'),
                 SizedBox(width: 8.w),
-                Text(
-                  'Add Group',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 14.sp,
-                    fontFamily: 'Proxima Nova',
-                    fontWeight: FontWeight.w600,
+                GestureDetector(
+                  onTap: () {
+                    debugPrint('Add Group button clicked!');
+                    Navigator.pop(context); 
+                  },
+                  child: Text(
+                    'Add Group',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14.sp,
+                      fontFamily: 'Proxima Nova',
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ],
