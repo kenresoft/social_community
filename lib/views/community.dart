@@ -83,7 +83,10 @@ class _CommunityState extends State<Community> with SingleTickerProviderStateMix
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion(
-      value: const SystemUiOverlayStyle(statusBarColor: Colors.white),
+      value: const SystemUiOverlayStyle(
+        statusBarColor: Colors.white,
+        statusBarIconBrightness: Brightness.dark,
+      ),
       child: SafeArea(
         child: Scaffold(
           appBar: condition(
@@ -129,7 +132,7 @@ class _CommunityState extends State<Community> with SingleTickerProviderStateMix
                           width: 1.sw,
                         ),
                         Positioned(
-                          top: 18.h /* + _imagePositionAnimation.value*/,
+                          top: 18.h,
                           left: 20.w,
                           child: AnimatedScale(
                             scale: _imageScaleAnimation.value > 0 ? _imageScaleAnimation.value : 0,
@@ -339,6 +342,12 @@ class _CommunityState extends State<Community> with SingleTickerProviderStateMix
                                         8.h,
                                       ),
                                       hintText: 'Search member',
+                                      hintStyle: const TextStyle(
+                                        color: Color(0xFF494949),
+                                        fontSize: 15,
+                                        fontFamily: 'Proxima Nova',
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                       border: InputBorder.none,
                                     ),
                                   ),
@@ -346,7 +355,15 @@ class _CommunityState extends State<Community> with SingleTickerProviderStateMix
                               ),
                               TextButton(
                                 onPressed: _toggleSearch,
-                                child: const Text('Cancel'),
+                                child: const Text(
+                                  'Cancel',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 15,
+                                    fontFamily: 'Proxima Nova',
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
                               ),
                             ],
                           ),
