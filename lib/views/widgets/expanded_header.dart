@@ -107,18 +107,41 @@ class ExpandedHeader extends StatelessWidget {
               );
             },
           ),
-          Container(
-            height: 30.h,
-            width: 30.w,
-            padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
-            clipBehavior: Clip.antiAlias,
-            decoration: ShapeDecoration(
-              shape: RoundedRectangleBorder(
-                side: BorderSide(width: 1.w, color: const Color(0xFFE9E9EB)),
-                borderRadius: BorderRadius.circular(10).r,
+          Stack(
+            children: [
+              Opacity(
+                opacity: 1.0 - animation.value,
+                child: Container(
+                  height: 30.h,
+                  width: 30.w,
+                  padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
+                  clipBehavior: Clip.antiAlias,
+                  alignment: Alignment.center,
+                  decoration: ShapeDecoration(
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(width: 1.w, color: const Color(0xFFE9E9EB)),
+                      borderRadius: BorderRadius.circular(10).r,
+                    ),
+                  ),
+                  child: SvgPicture.asset('assets/svg/share-outline.svg'),
+                ),
               ),
-            ),
-            child: SvgPicture.asset('assets/svg/share-outline.svg'),
+              Opacity(
+                opacity: animation.value,
+                child: Container(
+                  width: 24.w,
+                  height: 24.h,
+                  margin: EdgeInsets.only(right: 10.w),
+                  decoration: ShapeDecoration(
+                    color: Colors.black.withOpacity(0.1),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20).r,
+                    ),
+                  ),
+                  child: SvgPicture.asset('assets/svg/more.svg'),
+                ),
+              ),
+            ],
           ),
         ],
       ),
