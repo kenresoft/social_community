@@ -134,7 +134,11 @@ void _showBottomSheet(BuildContext context) {
                 SizedBox(width: 8.w),
                 GestureDetector(
                   onTap: () {
-                    debugPrint('Invite button clicked!');
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Invite button clicked!'),
+                      ),
+                    );
                     Navigator.pop(context); 
                   },
                   child: Text(
@@ -158,7 +162,11 @@ void _showBottomSheet(BuildContext context) {
                 8.w.spX,
                 GestureDetector(
                   onTap: () {
-                    debugPrint('Add member button clicked!');
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Add member button clicked!'),
+                      ),
+                    );
                     Navigator.pop(context); 
                   },
                   child: Text(
@@ -182,7 +190,11 @@ void _showBottomSheet(BuildContext context) {
                 SizedBox(width: 8.w),
                 GestureDetector(
                   onTap: () {
-                    debugPrint('Add Group button clicked!');
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Add Group button clicked!'),
+                      ),
+                    );
                     Navigator.pop(context); 
                   },
                   child: Text(
