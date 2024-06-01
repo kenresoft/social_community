@@ -13,10 +13,21 @@ class CustomContainer extends StatefulWidget {
 class _CustomContainerState extends State<CustomContainer> {
   bool _isFollowing = false;
 
-  void _toggleFollow() {
+  @override
+  void initState() {
+    super.initState();
+    _loadFollowStatus();
+  }
+
+  void _loadFollowStatus() async {
     setState(() {
-      _isFollowing = !_isFollowing;
+      _isFollowing = SharedPreferencesService.getBool('isFollowing_${widget.index}') ?? false;
     });
+  }
+
+  void _toggleFollow() async {
+    setState(() => _isFollowing = !_isFollowing);
+    SharedPreferencesService.setBool('isFollowing_${widget.index}', _isFollowing);
   }
 
   @override
