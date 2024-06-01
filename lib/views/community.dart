@@ -1,5 +1,6 @@
 import 'package:extensionresoft/extensionresoft.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:social_community/utils/constants.dart';
@@ -19,20 +20,20 @@ class Community extends StatefulWidget {
 
 class _CommunityState extends State<Community> with SingleTickerProviderStateMixin {
   final ScrollController _scrollController = ScrollController();
-  static const double expandedHeight = 300.0;
-  static const double toolbarHeight = 75.0;
+  double expandedHeight = 300.0;
+  double toolbarHeight = 75.0;
   double scrollPosition = 0.0;
   bool _isSearching = false;
   late AnimationController _animationController;
+  late Animation<double> _avatarAnimation;
 
   @override
   void initState() {
     super.initState();
+    _animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 300));
+    _avatarAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
+
     _scrollController.addListener(_updatePercent);
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-    );
   }
 
   @override
@@ -44,10 +45,14 @@ class _CommunityState extends State<Community> with SingleTickerProviderStateMix
   }
 
   void _updatePercent() {
-    final double currentScrollOffset = _scrollController.offset;
-    const double scrollRange = expandedHeight - toolbarHeight;
+    final double scrollOffset = _scrollController.offset;
+    final double maxScrollExtent = expandedHeight - toolbarHeight;
 
-    final newScrollPosition = (currentScrollOffset / scrollRange).clamp(0.0, 1.0);
+    if (scrollOffset <= maxScrollExtent) {
+      _animationController.value = scrollOffset / maxScrollExtent;
+    }
+
+    final newScrollPosition = (scrollOffset / maxScrollExtent).clamp(0.0, 1.0);
     if (scrollPosition != newScrollPosition) {
       setState(() {
         scrollPosition = newScrollPosition;
@@ -74,15 +79,17 @@ class _CommunityState extends State<Community> with SingleTickerProviderStateMix
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _isSearching
-          ? AppBar(
-              toolbarHeight: toolbarHeight,
-              titleSpacing: 0,
-              title: CollapsedHeader(
-                onBackClick: () => _toggleSearch(),
-              ),
-            )
-          : null,
+      appBar: condition(
+        _isSearching,
+        AppBar(
+          toolbarHeight: toolbarHeight.h,
+          titleSpacing: 0,
+          title: CollapsedHeader(
+            onBackClick: () => _toggleSearch(),
+          ),
+        ),
+        null,
+      ),
       body: CustomScrollView(
         controller: _scrollController,
         slivers: [
@@ -91,21 +98,59 @@ class _CommunityState extends State<Community> with SingleTickerProviderStateMix
               pinned: true,
               floating: false,
               expandedHeight: expandedHeight,
-              toolbarHeight: toolbarHeight,
+              //collapsedHeight: toolbarHeight,
+              toolbarHeight: toolbarHeight.h,
               titleSpacing: 0,
               title: condition(
                 scrollPosition == 1.0,
-                CollapsedHeader(onBackClick: () {}),
+                const CollapsedHeader(),
                 null,
               ),
+              /*flexibleSpace: LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    return FlexibleSpaceBar(
+                      centerTitle: true,
+                      title: AnimatedBuilder(
+                        animation: _avatarAnimation,
+                        builder: (context, child) {
+                          return Opacity(
+                            opacity: _avatarAnimation.value,
+                            child: CircleAvatar(
+                              radius: 30.0 * _avatarAnimation.value,
+                              backgroundImage: AssetImage('assets/avatar.png'),
+                            ),
+                          );
+                        },
+                      ),
+                      background: Image.asset('assets/header-image.jpg', fit: BoxFit.cover),
+                    );
+                  },
+                )*/
               flexibleSpace: FlexibleSpaceBar(
                 titlePadding: EdgeInsets.zero,
+                collapseMode: CollapseMode.pin,
+                expandedTitleScale: 1,
                 title: condition(
-                  scrollPosition <= 1,
-                  const ExpandedHeader(),
+                  scrollPosition < 1,
+                  ExpandedHeader(animation: _avatarAnimation),
                   null,
                 ),
-                background: Image.asset('assets/img/header-image.png', fit: BoxFit.cover),
+                background: Stack(
+                  children: [
+                    Image.asset('assets/img/header-image.png', fit: BoxFit.cover),
+                    Container(
+                      width: 24.w,
+                      height: 24.h,
+                      decoration: ShapeDecoration(
+                        color: Colors.black.withOpacity(0.1),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20).r,
+                        ),
+                      ),
+                      child: SvgPicture.asset('assets/svg/arrow-left.svg'),
+                    )
+                  ],
+                ),
               ),
             ),
           if (!_isSearching) ...[
@@ -166,7 +211,7 @@ class _CommunityState extends State<Community> with SingleTickerProviderStateMix
             ),
             SliverToBoxAdapter(
               child: Container(
-                height: 115,
+                height: 115.h,
                 margin: const EdgeInsets.symmetric(horizontal: 16).w,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
