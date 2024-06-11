@@ -27,7 +27,7 @@ class CollapsedHeader extends StatelessWidget {
               GestureDetector(
                 onTap: onBackClick,
                 child: Container(
-                  width: 24.w,
+                  width: 24.h,
                   height: 24.h,
                   decoration: ShapeDecoration(
                     color: Colors.black.withOpacity(0.1),
@@ -40,7 +40,7 @@ class CollapsedHeader extends StatelessWidget {
               ),
               16.w.spX,
               Container(
-                width: 50.w,
+                width: 50.h,
                 height: 50.h,
                 clipBehavior: Clip.antiAlias,
                 decoration: ShapeDecoration(
@@ -68,7 +68,7 @@ class CollapsedHeader extends StatelessWidget {
                     'The Weeknd',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 22.sp,
+                      fontSize: 22.h,
                       fontFamily: 'Proxima Nova',
                       fontWeight: FontWeight.w600,
                     ),
@@ -79,7 +79,7 @@ class CollapsedHeader extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 14.sp,
+                      fontSize: 14.h,
                       fontFamily: 'Proxima Nova',
                       fontWeight: FontWeight.w600,
                     ),
@@ -91,7 +91,7 @@ class CollapsedHeader extends StatelessWidget {
           GestureDetector(
             onTap: () => _showBottomSheet(context),
             child: Container(
-              width: 24.w,
+              width: 24.h,
               height: 24.h,
               margin: EdgeInsets.only(right: 10.w),
               decoration: ShapeDecoration(
@@ -139,7 +139,7 @@ void _showBottomSheet(BuildContext context) {
                         content: Text('Invite button clicked!'),
                       ),
                     );
-                    Navigator.pop(context); 
+                    Navigator.pop(context);
                   },
                   child: Text(
                     'Invite',
@@ -167,7 +167,7 @@ void _showBottomSheet(BuildContext context) {
                         content: Text('Add member button clicked!'),
                       ),
                     );
-                    Navigator.pop(context); 
+                    Navigator.pop(context);
                   },
                   child: Text(
                     'Add member',
@@ -195,7 +195,7 @@ void _showBottomSheet(BuildContext context) {
                         content: Text('Add Group button clicked!'),
                       ),
                     );
-                    Navigator.pop(context); 
+                    Navigator.pop(context);
                   },
                   child: Text(
                     'Add Group',
