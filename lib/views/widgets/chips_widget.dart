@@ -22,11 +22,13 @@ class ChipsWidget extends StatelessWidget {
                 children: [
                   Container(
                     width: 66.w,
-                    padding: const EdgeInsets.symmetric(horizontal: 6).w,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 6.w, vertical: 1.h),
                     clipBehavior: Clip.antiAlias,
                     decoration: ShapeDecoration(
                       shape: RoundedRectangleBorder(
-                        side: const BorderSide(width: 1, color: Color(0xFFEF456F)),
+                        side: const BorderSide(
+                            width: 1, color: Color(0xFFEF456F)),
                         borderRadius: BorderRadius.circular(20).r,
                       ),
                     ),
@@ -34,7 +36,7 @@ class ChipsWidget extends StatelessWidget {
                       'Outdoor',
                       style: TextStyle(
                         color: const Color(0xFFEF456F),
-                        fontSize: 12.sp,
+                        fontSize: 12.h,
                         fontFamily: 'Proxima Nova',
                         fontWeight: FontWeight.w400,
                       ),
@@ -58,7 +60,7 @@ class ChipsWidget extends StatelessWidget {
                 '+1',
                 style: TextStyle(
                   color: const Color(0xFFEF456F),
-                  fontSize: 12.sp,
+                  fontSize: 12.h,
                   fontFamily: 'Proxima Nova',
                   fontWeight: FontWeight.w400,
                 ),
