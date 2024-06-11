@@ -21,13 +21,16 @@ class _CustomContainerState extends State<CustomContainer> {
 
   void _loadFollowStatus() async {
     setState(() {
-      _isFollowing = SharedPreferencesService.getBool('isFollowing_${widget.index}') ?? false;
+      _isFollowing =
+          SharedPreferencesService.getBool('isFollowing_${widget.index}') ??
+              false;
     });
   }
 
   void _toggleFollow() async {
     setState(() => _isFollowing = !_isFollowing);
-    SharedPreferencesService.setBool('isFollowing_${widget.index}', _isFollowing);
+    SharedPreferencesService.setBool(
+        'isFollowing_${widget.index}', _isFollowing);
   }
 
   @override
@@ -44,7 +47,7 @@ class _CustomContainerState extends State<CustomContainer> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                width: 46.w,
+                width: 46.h,
                 height: 46.h,
                 decoration: const ShapeDecoration(
                   color: Color(0xFFD9D9D9),
@@ -85,7 +88,8 @@ class _CustomContainerState extends State<CustomContainer> {
           FilledButton(
             onPressed: _toggleFollow,
             style: FilledButton.styleFrom(
-              backgroundColor: _isFollowing ? Colors.grey : const Color(0xffEF456F),
+              backgroundColor:
+                  _isFollowing ? Colors.grey : const Color(0xffEF456F),
               minimumSize: Size(101.w, 32.h),
               padding: EdgeInsets.zero,
             ),
