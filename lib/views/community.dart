@@ -18,7 +18,8 @@ class Community extends StatefulWidget {
   State<Community> createState() => _CommunityState();
 }
 
-class _CommunityState extends State<Community> with SingleTickerProviderStateMixin {
+class _CommunityState extends State<Community>
+    with SingleTickerProviderStateMixin {
   final ScrollController _scrollController = ScrollController();
   double expandedHeight = 300.0;
   double toolbarHeight = 75.0;
@@ -32,10 +33,14 @@ class _CommunityState extends State<Community> with SingleTickerProviderStateMix
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 300));
-    _avatarAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
-    _imageScaleAnimation = Tween<double>(begin: 1.0, end: -3.0).animate(_animationController);
-    _imageOpacityAnimation = Tween<double>(begin: 1.0, end: -3.0).animate(_animationController);
+    _animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 300));
+    _avatarAnimation =
+        Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
+    _imageScaleAnimation =
+        Tween<double>(begin: 1.0, end: -3.0).animate(_animationController);
+    _imageOpacityAnimation =
+        Tween<double>(begin: 1.0, end: -3.0).animate(_animationController);
 
     _scrollController.addListener(_updatePercent);
   }
@@ -135,13 +140,17 @@ class _CommunityState extends State<Community> with SingleTickerProviderStateMix
                           top: 18.h,
                           left: 20.w,
                           child: AnimatedScale(
-                            scale: _imageScaleAnimation.value > 0 ? _imageScaleAnimation.value : 0,
+                            scale: _imageScaleAnimation.value > 0
+                                ? _imageScaleAnimation.value
+                                : 0,
                             duration: const Duration(milliseconds: 300),
                             child: AnimatedOpacity(
                               duration: const Duration(milliseconds: 300),
-                              opacity: _imageOpacityAnimation.value > 0 ? _imageOpacityAnimation.value : 0,
+                              opacity: _imageOpacityAnimation.value > 0
+                                  ? _imageOpacityAnimation.value
+                                  : 0,
                               child: Container(
-                                width: 24.w,
+                                width: 24.h,
                                 height: 24.h,
                                 decoration: ShapeDecoration(
                                   color: Colors.black,
@@ -149,7 +158,8 @@ class _CommunityState extends State<Community> with SingleTickerProviderStateMix
                                     borderRadius: BorderRadius.circular(20).r,
                                   ),
                                 ),
-                                child: SvgPicture.asset('assets/svg/arrow-left.svg'),
+                                child: SvgPicture.asset(
+                                    'assets/svg/arrow-left.svg'),
                               ),
                             ),
                           ),
@@ -194,7 +204,8 @@ class _CommunityState extends State<Community> with SingleTickerProviderStateMix
                   child: Container(
                     width: 320.w,
                     height: 24.h,
-                    margin: EdgeInsets.symmetric(horizontal: 16.w).copyWith(top: 32.h, bottom: 8.h),
+                    margin: EdgeInsets.symmetric(horizontal: 16.w)
+                        .copyWith(top: 32.h, bottom: 8.h),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -242,7 +253,8 @@ class _CommunityState extends State<Community> with SingleTickerProviderStateMix
                 ),
                 SliverToBoxAdapter(
                   child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                    margin:
+                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -257,7 +269,7 @@ class _CommunityState extends State<Community> with SingleTickerProviderStateMix
                           ),
                         ),
                         Container(
-                          width: 21.w,
+                          width: 21.h,
                           height: 21.h,
                           margin: EdgeInsets.only(right: 24.w),
                           decoration: const ShapeDecoration(
