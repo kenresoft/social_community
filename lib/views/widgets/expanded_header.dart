@@ -23,12 +23,18 @@ class ExpandedHeader extends StatelessWidget {
           AnimatedBuilder(
             animation: animation,
             builder: (context, child) {
-              final double space16 = Tween<double>(begin: 0, end: 16.w).evaluate(animation);
-              final double space8 = Tween<double>(begin: 0, end: 8.w).evaluate(animation);
-              final double space6 = Tween<double>(begin: 0, end: 6.h).evaluate(animation);
-              final double arrowSize = Tween<double>(begin: 0, end: 24.w).evaluate(animation);
-              final double imageSize = Tween<double>(begin: 0, end: 50.w).evaluate(animation);
-              final double radius = Tween<double>(begin: 0, end: 200).evaluate(animation);
+              final double space16 =
+                  Tween<double>(begin: 0, end: 16.w).evaluate(animation);
+              final double space8 =
+                  Tween<double>(begin: 0, end: 8.w).evaluate(animation);
+              final double space6 =
+                  Tween<double>(begin: 0, end: 6.h).evaluate(animation);
+              final double arrowSize =
+                  Tween<double>(begin: 0, end: 24.h).evaluate(animation);
+              final double imageSize =
+                  Tween<double>(begin: 0, end: 50.h).evaluate(animation);
+              final double radius =
+                  Tween<double>(begin: 0, end: 200.r).evaluate(animation);
 
               return Row(
                 mainAxisSize: MainAxisSize.min,
@@ -59,7 +65,8 @@ class ExpandedHeader extends StatelessWidget {
                       decoration: ShapeDecoration(
                         color: const Color(0xFFFACB31),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(radius * animation.value).r,
+                          borderRadius:
+                              BorderRadius.circular(radius * animation.value).r,
                         ),
                       ),
                       child: Container(
@@ -82,7 +89,7 @@ class ExpandedHeader extends StatelessWidget {
                         'The Weeknd',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 22.sp,
+                          fontSize: 22.h,
                           fontFamily: 'Proxima Nova',
                           fontWeight: FontWeight.w600,
                         ),
@@ -95,7 +102,7 @@ class ExpandedHeader extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 14.sp,
+                            fontSize: 14.h,
                             fontFamily: 'Proxima Nova',
                             fontWeight: FontWeight.w600,
                           ),
@@ -113,13 +120,14 @@ class ExpandedHeader extends StatelessWidget {
                 opacity: 1.0 - animation.value,
                 child: Container(
                   height: 30.h,
-                  width: 30.w,
+                  width: 30.h,
                   padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
                   clipBehavior: Clip.antiAlias,
                   alignment: Alignment.center,
                   decoration: ShapeDecoration(
                     shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 1.w, color: const Color(0xFFE9E9EB)),
+                      side: BorderSide(
+                          width: 1.w, color: const Color(0xFFE9E9EB)),
                       borderRadius: BorderRadius.circular(10).r,
                     ),
                   ),
@@ -129,7 +137,7 @@ class ExpandedHeader extends StatelessWidget {
               Opacity(
                 opacity: animation.value,
                 child: Container(
-                  width: 24.w,
+                  width: 24.h,
                   height: 24.h,
                   margin: EdgeInsets.only(right: 10.w),
                   decoration: ShapeDecoration(
@@ -148,4 +156,3 @@ class ExpandedHeader extends StatelessWidget {
     );
   }
 }
-
